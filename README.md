@@ -68,8 +68,6 @@ cp accounts.example.json data/accounts.json   # список кабинетов
 
 ```json
 [
-  {"id": "eugene", "label": "Eugene · Amazon Ads US",
-   "db": "data/accounts/eugene.db", "profile_id": "2346284607821433"},
   {"id": "dimon", "label": "Dimon · Amazon Ads US",
    "db": "data/accounts/dimon.db", "profile_id": "1794615056359259"}
 ]
@@ -78,8 +76,8 @@ cp accounts.example.json data/accounts.json   # список кабинетов
 Загрузить уже скачанные отчёты в конкретный кабинет:
 
 ```bash
-python3 -m ingest.cli scan  data/inbox_eugene
-python3 -m ingest.cli load  data/inbox_eugene --db data/accounts/eugene.db
+python3 -m ingest.cli scan  data/inbox_dimon
+python3 -m ingest.cli load  data/inbox_dimon --db data/accounts/dimon.db
 ```
 
 ## Как добавлять отчёты
@@ -111,8 +109,8 @@ python3 -m ingest.cli load  data/inbox_eugene --db data/accounts/eugene.db
 ни расходов, ни названий кампаний, ни терминов.
 
 ```bash
-python3 build_static.py --account eugene --out docs \
-  --login eugene --password 'новый-пароль'
+python3 build_static.py --account dimon --out docs \
+  --login dimon --password 'новый-пароль'
 git add docs && git commit -m "data: обновление" && git push
 ```
 
@@ -144,13 +142,13 @@ Pages настроен на ветку `main`, папку `/docs`. После п
 
 ```bash
 # отчёты за 60 дней + свежие настройки в отдельную папку кабинета
-python3 -m ingest.amazon --days 60 --out data/inbox_eugene
+python3 -m ingest.amazon --days 60 --out data/inbox_dimon
 
 # история изменений за 88 дней (долго: пауза 180 с между запросами)
-nohup python3 -m ingest.history --days 88 --out data/inbox_eugene > history.log 2>&1 &
+nohup python3 -m ingest.history --days 88 --out data/inbox_dimon > history.log 2>&1 &
 
 # разложить по базе этого кабинета
-python3 -m ingest.cli load data/inbox_eugene --db data/accounts/eugene.db
+python3 -m ingest.cli load data/inbox_dimon --db data/accounts/dimon.db
 ```
 
 Кабинет определяется ключом `profile_id_us` в `secrets.env`: один хост с
@@ -172,8 +170,8 @@ python3 -m ingest.cli load data/inbox_eugene --db data/accounts/eugene.db
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")"
-python3 -m ingest.amazon --days 3 --out data/inbox_eugene
-python3 -m ingest.cli load data/inbox_eugene --db data/accounts/eugene.db
+python3 -m ingest.amazon --days 3 --out data/inbox_dimon
+python3 -m ingest.cli load data/inbox_dimon --db data/accounts/dimon.db
 ```
 
 Окно `--days 3` (а не 1) нужно потому, что Amazon доуточняет атрибуцию
@@ -216,7 +214,7 @@ docker run -d --name j-dashboard -p 127.0.0.1:8080:8080 \
   `data/accounts.json` больше одной записи.
 - Ключи разных аккаунтов нельзя держать на одном хосте: у каждого владельца свой
   сервер и свой `secrets.env`.
-- Сейчас подключён только мой кабинет: `data/accounts/eugene.db`.
+- Сейчас подключён только мой кабинет: `data/accounts/dimon.db`.
 
 ## Безопасность
 
