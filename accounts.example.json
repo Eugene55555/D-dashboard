@@ -1,0 +1,10 @@
+[
+  {
+    "id": "dimon",
+    "label": "Dimon · Amazon Ads US",
+    "db": "data/accounts/dimon.db",
+    "profile_id": "1794615056359259",
+    "currency": "USD",
+    "timezone": "America/Los_Angeles"
+  }
+]
